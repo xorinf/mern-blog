@@ -4,14 +4,23 @@
 ## BACKEND
 
 1. Genrate Package.json
-2. 
-3.
-4.
+2. Create env files
+3. create the express application
+4. connect to the database using mongoose
 5. Define Schemas and create models
     - UserTypeSchema
         FirstName
         LastName
+        role
         Email
         Password
         ImageURL
         isUserActive
+
+    - ArticalSchema
+        Author
+        title
+        content
+        catogory
+        comments 
+        isArticalActive
