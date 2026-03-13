@@ -5,7 +5,10 @@ const commentSchema = new Schema({
         type: Types.ObjectId,
         ref: "user",
         required: [true, "User ID is required!"]
-
+    },
+    comment: {
+        type: String,
+        
     }
 })
 
@@ -29,8 +32,12 @@ const articleSchema = new Schema({
         type: String,
         required: [true, "content is required!"],
     },
-    comment: [commentSchema]
-}, 
-{ versionKey: false, timestamps: true, strict: "throw" })
+    comment: [commentSchema],
+    isArticleActive: {
+        type: Boolean,
+        default: true
+    }
+},
+    { versionKey: false, timestamps: true, strict: "throw" })
 
-export const articalModel = model("article", articleSchema)
+export const articleModel = model("article", articleSchema)

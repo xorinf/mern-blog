@@ -17,10 +17,12 @@
         ImageURL
         isUserActive
 
-    - ArticalSchema
+    -ArticleSchema
         Author
         title
         content
         catogory
         comments 
-        isArticalActive
+        isArticleActive
+6. Implement API's
+7. create common api for register, login and logout
