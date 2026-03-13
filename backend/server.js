@@ -12,7 +12,7 @@ const app = exp();
 
 // use body parser
 app.use(exp.json())
-
+         
 //path level middlewares
 app.use("/user-api", userAPP);
 app.use("/author-api", authorAPP);

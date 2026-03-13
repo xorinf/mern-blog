@@ -8,7 +8,7 @@
 3. create the express application
 4. connect to the database using mongoose
 5. Define Schemas and create models
-    - UserTypeSchema
+    - UserTypeSchema                                             
         FirstName
         LastName
         role

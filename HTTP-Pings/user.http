@@ -1,0 +1,22 @@
+### Register User
+POST http://localhost:6767/auth/register
+Content-Type: application/json
+
+{
+    "firstName" : "roti",
+    "lastName" : "rumali",
+    "email" : "rumaliroti@gmail.com",
+    "password" : "kajukatli",
+    "role" : "USER",
+    "profileImageUrl" : "https://avatars.githubusercontent.com/u/118471720?v=4&size=64",
+    "isUserActive" : true
+}
+
+### Login User (Auth)
+POST http://localhost:6767/auth/login
+Content-Type: application/json
+
+{
+    "email" : "rumaliroti@gmail.com",
+    "password" : "kajukatli"
+}
