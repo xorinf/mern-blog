@@ -4,22 +4,27 @@ import { connect } from "mongoose";
 import { userAPP } from "./APIs/UserAPI.js";
 import { authorAPP } from "./APIs/AuthorAPI.js";
 import { adminAPP } from "./APIs/AdminAPI.js";
-import {commonAPP} from "./APIs/CommonAPI.js"
+import { commonAPP } from "./APIs/CommonAPI.js"
+import cookieParser from "cookie-parser";
 
-config({ path: "../.env", debug: true, quiet: true });
+config({ path: "../.env", debug: true, quiet: true, encoding: "UTF-8" });
 
+//create express app
 const app = exp();
 
-// use body parser
+//use body parser middleware
 app.use(exp.json())
-         
+
+//add cookie parser middleware
+app.use(cookieParser());
+
 //path level middlewares
 app.use("/user-api", userAPP);
 app.use("/author-api", authorAPP);
 app.use("/admin-api", adminAPP);
 app.use("/auth", commonAPP)
 
-// port and db 
+//port and db 
 const port = process.env.PORT || 9110;
 const db_address = process.env.DB_ADDRESS;
 
@@ -32,12 +37,37 @@ try {
   console.log("con refused :", err);
 }
 //handle invalid path
-app.use((response, request, next) => {
+app.use((request, response, next) => {
   console.log("ERROR : INVALID URL");
   return response.status(404).json({ message: "Invalid URL" });
 });
 //handle errors
+//Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({ message: "Server Error", error: err.message });
+  console.log("Error name:", err.name);
+  console.log("Error code:", err.code);
+  console.log("Error cause:", err.cause);
+  console.log("Full error:", JSON.stringify(err, null, 2));
+  //ValidationError
+  if (err.name === "ValidationError") {
+    return res.status(400).json({ message: "error occurred", error: err.message });
+  }
+  //CastError
+  if (err.name === "CastError") {
+    return res.status(400).json({ message: "error occurred", error: err.message });
+  }
+  const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
+  const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
+
+  if (errCode === 11000) {
+    const field = Object.keys(keyValue)[0];
+    const value = keyValue[field];
+    return res.status(409).json({
+      message: "error occurred",
+      error: `${field} "${value}" already exists`,
+    });
+  }
+
+  //send server side error
+  res.status(500).json({ message: "error occurred", error: "Server side error" });
 });

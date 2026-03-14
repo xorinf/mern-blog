@@ -1,5 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
+//create comment schema
 const commentSchema = new Schema({
     user: {
         type: Types.ObjectId,
@@ -8,10 +9,10 @@ const commentSchema = new Schema({
     },
     comment: {
         type: String,
-        
     }
-})
+});
 
+//create article schema
 const articleSchema = new Schema({
     author: {
         type: Types.ObjectId,
@@ -22,22 +23,25 @@ const articleSchema = new Schema({
         type: String,
         required: [true, "Title is required"]
     },
-    catogory: {
+    category: {
         type: String,
-        required: [true, "Catogory is Required!"],
-        enum: ["SMUT", "FICTION", "FANTASY", "BIO", "THRILLER", "EDU", "HORROR"],
-        required: [true, "{Value} is an Invalid catogory!"]
+        required: [true, "Category is Required!"],
+        enum: ["SMUT", "FICTION", "FANTASY", "BIO", "THRILLER", "EDU", "HORROR"]
     },
     content: {
         type: String,
         required: [true, "content is required!"],
     },
-    comment: [commentSchema],
+    comments: [{ type: commentSchema, default: [] }],
     isArticleActive: {
         type: Boolean,
         default: true
     }
-},
-    { versionKey: false, timestamps: true, strict: "throw" })
+}, { 
+    versionKey: false, 
+    timestamps: true, 
+    strict: "throw" 
+});
 
-export const articleModel = model("article", articleSchema)
+//create article model
+export const articleModel = model("article", articleSchema);

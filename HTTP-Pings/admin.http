@@ -1,0 +1,14 @@
+### Admin Login
+POST http://localhost:6767/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "admin"
+}
+
+### Admin Get All Users
+GET http://localhost:6767/admin-api/users
+
+### Logout Admin 
+GET http://localhost:6767/auth/logout

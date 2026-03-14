@@ -20,3 +20,5 @@ Content-Type: application/json
     "email" : "rumaliroti@gmail.com",
     "password" : "kajukatli"
 }
+### Logout User (Auth)
+GET http://localhost:6767/auth/logout

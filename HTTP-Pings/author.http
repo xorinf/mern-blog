@@ -1,0 +1,54 @@
+### Create author
+POST http://localhost:6767/auth/register
+Content-Type: application/json
+
+{
+    "firstName" : "author",
+    "lastName" : "1",
+    "email" : "author1@gmail.com",
+    "password" : "kajukatli",
+    "role" : "USER",
+    "profileImageUrl" : "https://avatars.githubusercontent.com/u/118471720?v=4&size=64",
+    "isUserActive" : true
+}
+
+### Login Author (Auth)
+POST http://localhost:6767/auth/login
+Content-Type: application/json
+
+{
+    "email" : "author2@gmail.com",
+    "password" : "kajukatli"
+}
+### Create new article
+POST http://localhost:6767/author-api/article
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjNjY2YzMmE5Yzk3MTlhM2Y4YmY0NyIsInJvbGUiOiJBVVRIT1IiLCJpYXQiOjE3NzMzOTI0OTEsImV4cCI6MTc3MzM5NjA5MX0.Jzm-DBwzKc6ohtrKJgVTOyAfJAqdYP7Dn1D5z8UiX9c; Path=/; HttpOnly; SameSite=Lax
+Content-Type: application/json
+
+{
+    "author" : "69b3cd102a9c9719a3f8bf49",
+    "title" : "article 1 by author 1",
+    "category" : "SMUT",
+    "content" : "An article on Programming!"
+}
+
+### GET ARTICALS
+GET http://localhost:6767/author-api/articles
+
+### GET ARTICALS by iD
+GET http://localhost:6767/author-api/article/69b3d2783436adff876c30cc
+
+### Logout Author (Auth)
+GET http://localhost:6767/auth/logout
+
+### update
+PUT http://localhost:6767/author-api/article
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjNjY2YzMmE5Yzk3MTlhM2Y4YmY0NyIsInJvbGUiOiJBVVRIT1IiLCJpYXQiOjE3NzMzOTI4NDIsImV4cCI6MTc3MzM5NjQ0Mn0.L5yOnGc-Kq2uPZ8HEcTkM1L-iHWGhjVOqzwn6Wt7YkQ; Path=/; HttpOnly; SameSite=Lax
+Content-Type: application/json
+
+{
+    "_id" : "69b3d8c9b611569dd29d7b54",
+    "title" : "Artical 2 by author 1",
+    "category" : "FICTION",
+    "content" : "test artical on ai and its updated!"
+}

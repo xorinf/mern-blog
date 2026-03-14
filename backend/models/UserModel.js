@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+//create user schema
 const userSchema = new Schema({
     firstName: {
         type: String,
@@ -11,8 +12,8 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, "Email is required!!"],
+        unique: [true, "Email already in use!!"]
     },
-
     password: {
         type: String,
         required: [true, "Password Required!"],
@@ -29,10 +30,11 @@ const userSchema = new Schema({
         type: Boolean,
         default: true
     }
-},
-    {
-        timestamps: true,
-        versionKey: false,
-        strict: "throw"
-    });
-export const userModel = model("user", userSchema)
+}, {
+    timestamps: true,
+    versionKey: false,
+    strict: "throw"
+});
+
+//create user model
+export const userModel = model("user", userSchema);
