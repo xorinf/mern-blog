@@ -20,5 +20,30 @@ Content-Type: application/json
     "email" : "rumaliroti@gmail.com",
     "password" : "kajukatli"
 }
+
+### Login User (Auth) change pass
+PUT http://localhost:6767/auth/password
+Content-Type: application/json
+
+{
+    "current_pass" : "kaju",
+    "new_pass" : "kajukatli"
+}
+
+### /articles Fetch User articals
+GET http://localhost:6767/user-api/articles
+
+### /articles Fetch User articals by id
+GET http://localhost:6767/user-api/article/
+
+### add comments
+PUT http://localhost:6767/user-api/comment/
+Content-Type: application/json
+
+{
+    "article_id" : "69b4e06fb36981a7d4f122ae",
+    "comment" : "L article!"
+}
+
 ### Logout User (Auth)
 GET http://localhost:6767/auth/logout

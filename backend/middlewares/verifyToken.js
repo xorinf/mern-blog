@@ -2,8 +2,9 @@ import jwt from 'jsonwebtoken';
 
 /**
  * Middleware to verify JWT token and allowed roles.
- * @param {...string} allowedRoles - Dynamic rest parameter gathering allowed roles (e.g. "USER", "AUTHOR").
- * @returns {Function} Express middleware function.
+ * This is a funtion which will return a middleware where we can use in the routes as middleware but with tweaks we refractored the code
+ * where this function takes the type of role and decodes the token with it if isValid it will return valid session/token where user can
+ * access the protected routes!
  */
 export const verifyToken = (...allowedRoles) => {
     return (req, res, next) => {

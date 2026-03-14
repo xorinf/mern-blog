@@ -52,6 +52,7 @@ authorAPP.get("/articles", verifyToken("AUTHOR"), async (request, response) => {
  */
 authorAPP.get("/article/:id", verifyToken("AUTHOR"), async (request, response) => {
     try {
+        // used populate to add info to the op with artical data!
         const article = await articleModel.findById(request.params.id)
             .populate("author", "firstName lastName email")
             .populate("comments.user", "firstName lastName");
@@ -91,7 +92,7 @@ authorAPP.put("/article", verifyToken("AUTHOR"), async (request, response) => {
     }
 });
 
-authorAPP.patch("/article/restore/:id", verifyToken("ADMIN"), async (request, response) => {
+authorAPP.patch("/article/restore/:id", verifyToken("AUTHOR"), async (request, response) => {
     try {
         const article = await articleModel.findById(request.params.id);
         if (!article) return response.status(404).json({ message: "Article not found" });

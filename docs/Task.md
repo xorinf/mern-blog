@@ -26,3 +26,6 @@
         isArticleActive
 6. Implement API's
 7. create common api for register, login and logout
+
+XXS - cross site scripting attack
+CSRF - cross site resource forgery!

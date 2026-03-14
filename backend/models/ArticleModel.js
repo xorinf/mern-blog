@@ -9,6 +9,8 @@ const commentSchema = new Schema({
     },
     comment: {
         type: String,
+        required: [true, 'The comment field cannot be empty!']
+        
     }
 });
 

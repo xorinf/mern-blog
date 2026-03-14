@@ -54,3 +54,11 @@ adminAPP.patch("/users/status/:id", verifyToken("ADMIN"), async (request, respon
         response.status(500).json({ message: "Server Error", error: err.message });
     }
 });
+
+
+/*
+ * Admin login
+ * Read all users and authors
+ * author data
+ * block or activate user or author
+ */

@@ -4,10 +4,10 @@ Content-Type: application/json
 
 {
     "firstName" : "author",
-    "lastName" : "1",
-    "email" : "author1@gmail.com",
+    "lastName" : "2",
+    "email" : "author2@gmail.com",
     "password" : "kajukatli",
-    "role" : "USER",
+    "role" : "AUTHOR",
     "profileImageUrl" : "https://avatars.githubusercontent.com/u/118471720?v=4&size=64",
     "isUserActive" : true
 }
@@ -22,11 +22,12 @@ Content-Type: application/json
 }
 ### Create new article
 POST http://localhost:6767/author-api/article
-Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjNjY2YzMmE5Yzk3MTlhM2Y4YmY0NyIsInJvbGUiOiJBVVRIT1IiLCJpYXQiOjE3NzMzOTI0OTEsImV4cCI6MTc3MzM5NjA5MX0.Jzm-DBwzKc6ohtrKJgVTOyAfJAqdYP7Dn1D5z8UiX9c; Path=/; HttpOnly; SameSite=Lax
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjRkZmY1YjM2OTgxYTdkNGYxMjJhOSIsInJvbGUiOiJBVVRIT1IiLCJpYXQiOjE3NzM0NjE0OTUsImV4cCI6MTc3MzQ2NTA5NX0.P7Nl4gaqopEvwrh1X7ezCpbITaVEXgfwKUJXHVnahNU; Path=/; HttpOnly; SameSite=Lax
 Content-Type: application/json
 
 {
-    "author" : "69b3cd102a9c9719a3f8bf49",
+    // automate this user _id
+    "author" : "69b4dff5b36981a7d4f122a9",
     "title" : "article 1 by author 1",
     "category" : "SMUT",
     "content" : "An article on Programming!"
