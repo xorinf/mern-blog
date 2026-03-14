@@ -29,3 +29,10 @@
 
 XXS - cross site scripting attack
 CSRF - cross site resource forgery!
+
+## FrontEnd
+
+    Dynamic, Responsive User interface (UI => WebPage --> Browzer!)
+    - HTML -> Skeleton
+    - CSS  -> cascade style sheets and add responsive-ness (Bootstrap, TailwindCSS)
+    - JS(ReactJS/Angular/Vue/NextJS) : 
