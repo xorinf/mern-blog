@@ -6,17 +6,23 @@ import Footer from "./components/Footer";
 import UserList from "./components/UserList";
 import Counter from "./components/Counter";
 import Home from "./components/Home";
+import TestRefTypes from "./components/TestRefTypes";
+import APIDemo from "./components/APIDemo";
 // function component
 function App() {
   //state
   //return react element
   return (
     <div className="">
-      <Navbar />
+      {/* <Navbar />
       <UserList />
       <Home />
       <Counter />
-      <Footer />
+      <TestRefTypes />
+      <Footer /> */}
+
+      <APIDemo />
+
 
     </div>
   );
