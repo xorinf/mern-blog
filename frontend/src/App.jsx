@@ -1,31 +1,45 @@
-// class component - deprecated!
-// import styles
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import UserList from "./components/UserList";
-import Counter from "./components/Counter";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import RootLayout from "./components/RootLayout";
 import Home from "./components/Home";
-import TestRefTypes from "./components/TestRefTypes";
-import APIDemo from "./components/APIDemo";
-// function component
+import Register from "./components/Register";
+import Login from "./components/Login";
+import UserProfile from "./components/UserProfile";
+import AuthorProfile from "./components/AuthorProfile";
+import AdminProfile from "./components/AdminProfile";
 function App() {
-  //state
-  //return react element
-  return (
-    <div className="">
-      {/* <Navbar />
-      <UserList />
-      <Home />
-      <Counter />
-      <TestRefTypes />
-      <Footer /> */}
-
-      <APIDemo />
-
-
-    </div>
-  );
+  const routerObj = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "register",
+          element: <Register />,
+        },
+        {
+          path: "login",
+          element: <Login />,
+        },
+        {
+          path: "user-profile",
+          element: <UserProfile />,
+        },
+        {
+          path: "author-profile",
+          element: <AuthorProfile />,
+        },
+        {
+          path: "admin-profile",
+          element: <AdminProfile />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={routerObj} />;
 }
 
 export default App;
