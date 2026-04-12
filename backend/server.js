@@ -6,11 +6,18 @@ import { authorAPP } from "./APIs/AuthorAPI.js";
 import { adminAPP } from "./APIs/AdminAPI.js";
 import { commonAPP } from "./APIs/CommonAPI.js"
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 
 config({ path: "../.env", debug: true, quiet: true, encoding: "UTF-8" });
 
 //create express app
 const app = exp();
+
+//enable cors
+app.use(cors({
+  origin: ['http://localhost:5173'],
+  credentials: true
+}));
 
 //use body parser middleware
 app.use(exp.json())

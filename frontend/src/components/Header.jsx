@@ -1,18 +1,101 @@
-import { NavLink } from "react-router"
+import { NavLink } from "react-router";
+import { useAuth } from "../store/authStore";
+import {
+  navbarClass,
+  navContainerClass,
+  navBrandClass,
+  navLinksClass,
+  navLinkClass,
+  navLinkActiveClass,
+} from "../styles/common";
 
 function Header() {
+  const isAuthenticated = useAuth((state) => state.isAuthenticated);
+  const user = useAuth((state) => state.currentUser);
+
+  // decide profile route based on role
+  const getProfilePath = () => {
+    if (!user) return "/";
+
+    switch (user.role) {
+      case "AUTHOR":
+        return "/author-profile";
+      case "ADMIN":
+        return "/admin-profile";
+      default:
+        return "/user-profile";
+    }
+  };
+
   return (
-    <div className="flex justify-between bg-gray-200">
-      <img src="https://github.com/xorinf/mern-blog/blob/main/frontend/src/assets/edss.jpg" alt="" className="w-30 p-2 rounded-2xl"/>
-      <nav className="flex justify-end gap-9 p-3 text-2xl items-center">
-        <NavLink to="">Home</NavLink>
-        <NavLink to="register">Register</NavLink>
-        <NavLink to="login">Login</NavLink>
-      </nav>
-    </div>
-  )
+    <nav className={navbarClass}>
+      <div className={navContainerClass}>
+
+        {/* LOGO */}
+        <NavLink to="/" className={navBrandClass}>
+          MyBlog
+        </NavLink>
+
+        <ul className={navLinksClass}>
+
+          {/* HOME */}
+          <li>
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                isActive ? navLinkActiveClass : navLinkClass
+              }
+            >
+              Home
+            </NavLink>
+          </li>
+
+          {/* NOT LOGGED IN */}
+          {!isAuthenticated && (
+            <>
+              <li>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    isActive ? navLinkActiveClass : navLinkClass
+                  }
+                >
+                  Register
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? navLinkActiveClass : navLinkClass
+                  }
+                >
+                  Login
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {/* LOGGED IN */}
+          {isAuthenticated && (
+            <li>
+              <NavLink
+                to={getProfilePath()}
+                className={({ isActive }) =>
+                  isActive ? navLinkActiveClass : navLinkClass
+                }
+              >
+                Profile
+              </NavLink>
+            </li>
+          )}
+
+        </ul>
+      </div>
+    </nav>
+  );
 }
 
-export default Header
-
-//flex flex-col items-center justify-center gap-4 mt-4">
+export default Header;

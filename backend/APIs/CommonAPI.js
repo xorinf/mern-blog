@@ -4,6 +4,9 @@ import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { verifyToken } from '../middlewares/verifyToken.js';
+import { upload } from '../config/multer.js';
+import { uploadToCloudinary } from '../config/cloudinaryUpload.js';
+import cloudinary from '../config/cloudinary.js';
 
 export const commonAPP = exp.Router();
 config();
@@ -11,33 +14,50 @@ config();
 /*
  * Route: POST /register
  * Description: Register a new user (author or standard user).
+ * Accepts multipart/form-data with optional profile image file.
  */
-commonAPP.post("/register", async (request, response) => {
-    //get user data
-    const newUser = request.body;
+commonAPP.post("/register", upload.single("profileImageUrl"), async (request, response, next) => {
+    let cloudinaryResult;
+    try {
+        //get user data
+        const newUser = request.body;
 
-    //explicitly prevent ADMIN registration
-    if (newUser?.role === "ADMIN") {
-        return response.status(403).json({ message: "Registration as ADMIN forbidden." });
-    }
+        //explicitly prevent ADMIN registration
+        if (newUser?.role === "ADMIN") {
+            return response.status(403).json({ message: "Registration as ADMIN forbidden." });
+        }
 
-    let isallowedRole = ['USER', 'AUTHOR'].includes(newUser?.role);
+        let isallowedRole = ['USER', 'AUTHOR'].includes(newUser?.role);
 
-    if (isallowedRole) {
-        //hash password and replace plain with hashed one
-        newUser.password = await hash(newUser.password, 12);
+        if (isallowedRole) {
+            //Upload image to cloudinary from memoryStorage if file exists
+            if (request.file) {
+                cloudinaryResult = await uploadToCloudinary(request.file.buffer);
+                //add CDN link of image to newUserObj
+                newUser.profileImageUrl = cloudinaryResult?.secure_url;
+            }
 
-        //create new user document
-        const newUserDoc = new userModel(newUser);
+            //hash password and replace plain with hashed one
+            newUser.password = await hash(newUser.password, 12);
 
-        //save document
-        await newUserDoc.save();
-        response.status(201).json({ message: "user created!" });
-    } else {
-        response.status(400).json({ message: "Invalid role!" });
+            //create new user document
+            const newUserDoc = new userModel(newUser);
+
+            //save document
+            await newUserDoc.save();
+            response.status(201).json({ message: "user created!" });
+        } else {
+            response.status(400).json({ message: "Invalid role!" });
+        }
+    } catch (err) {
+        //delete image from cloudinary on error if it was uploaded
+        if (cloudinaryResult?.public_id) {
+            await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+        }
+        next(err);
     }
 });
-// runValidators: true
+
 /**
  * Route: POST /login
  * Description: Authenticate user, set JWT cookie.
@@ -76,18 +96,27 @@ commonAPP.post("/login", async (request, response) => {
         return response.status(401).json({ message: "User is blocked! Contact Admin!" });
     }
 
-    //create jwt
+    //create jwt with full user info for check-auth restore
     const token = jwt.sign(
-        { id: user._id, role: user.role }, "chicken",
+        {
+            id: user._id,
+            role: user.role,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImageUrl: user.profileImageUrl,
+        },
+        "chicken",
         { expiresIn: "1h" }
     );
 
     //remove password from user response
-    user.password = undefined;
+    let userObj = user.toObject();
+    delete userObj.password;
 
     //set token to res header as httpOnly cookie
     response.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax" });
-    response.status(200).json({ message: "Login Successful", Token: token, User: user });
+    response.status(200).json({ message: "Login Successful", payload: userObj });
 });
 
 
@@ -109,7 +138,18 @@ commonAPP.put("/password", verifyToken("USER", "AUTHOR", "ADMIN"), async (reques
     //send response
     return response.status(401).json({ message: "Invalid Current Password!" })
 
-})
+});
+
+/**
+ * Route: GET /check-auth
+ * Description: Verify JWT cookie and restore user session on page refresh.
+ */
+commonAPP.get("/check-auth", verifyToken("USER", "AUTHOR", "ADMIN"), (request, response) => {
+    response.status(200).json({
+        message: "authenticated",
+        payload: request.user,
+    });
+});
 
 /*
  * Route: GET /logout

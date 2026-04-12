@@ -5,7 +5,17 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import UserProfile from "./components/UserProfile";
 import AuthorProfile from "./components/AuthorProfile";
+import AuthorArticles from "./components/AuthorArticles";
+import EditArticle from "./components/EditArticle";
+import WriteArticle from "./components/WriteArticle";
+import ReadArticleById from "./components/ReadArticleById";
 import AdminProfile from "./components/AdminProfile";
+import Articles from "./components/Articles";
+import UsersList from "./components/UsersList";
+import AuthorsList from "./components/AuthorsList";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Unauthorized from "./components/Unauthorized";
+
 function App() {
   const routerObj = createBrowserRouter([
     {
@@ -25,20 +35,87 @@ function App() {
           element: <Login />,
         },
         {
+          path: "articles",
+          element: <Articles />,
+        },
+        {
           path: "user-profile",
-          element: <UserProfile />,
+          element: (
+            <ProtectedRoute allowedRoles={["USER"]}>
+              <UserProfile />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              index: true,
+              element: <Articles />,
+            },
+            {
+              path: "articles",
+              element: <Articles />,
+            },
+          ],
         },
         {
           path: "author-profile",
-          element: <AuthorProfile />,
+          element: (
+            <ProtectedRoute allowedRoles={["AUTHOR"]}>
+              <AuthorProfile />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              index: true,
+              element: <AuthorArticles />,
+            },
+            {
+              path: "articles",
+              element: <AuthorArticles />,
+            },
+            {
+              path: "write-article",
+              element: <WriteArticle />,
+            },
+          ],
         },
         {
           path: "admin-profile",
-          element: <AdminProfile />,
+          element: (
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <AdminProfile />
+            </ProtectedRoute>
+          ),
+          children: [
+            {
+              index: true,
+              element: <UsersList />,
+            },
+            {
+              path: "users",
+              element: <UsersList />,
+            },
+            {
+              path: "authors",
+              element: <AuthorsList />,
+            },
+          ],
+        },
+        {
+          path: "article/:id",
+          element: <ReadArticleById />,
+        },
+        {
+          path: "edit-article",
+          element: <EditArticle />,
+        },
+        {
+          path: "unauthorized",
+          element: <Unauthorized />,
         },
       ],
     },
   ]);
+
   return <RouterProvider router={routerObj} />;
 }
 
