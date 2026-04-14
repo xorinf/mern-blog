@@ -11,6 +11,7 @@ import {
   submitBtn,
   errorClass,
   loadingClass,
+  articlePageWrapper,
 } from "../styles/common";
 import { useAuth } from "../store/authStore";
 
@@ -54,7 +55,8 @@ function WriteArticle() {
   };
 
   return (
-    <div className={formCard}>
+    <div className={articlePageWrapper}>
+      <div className={formCard}>
       <h2 className={formTitle}>Write New Article</h2>
 
       {apiError && <p className={errorClass}>{apiError}</p>}
@@ -149,6 +151,7 @@ function WriteArticle() {
 
         {loading && <p className={loadingClass}>Publishing article...</p>}
       </form>
+      </div>
     </div>
   );
 }

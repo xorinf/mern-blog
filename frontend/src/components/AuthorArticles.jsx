@@ -68,7 +68,7 @@ function AuthorArticles() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
       {articles.map((article) => (
         <div key={article._id} className="bg-[#f5f5f7] rounded-2xl overflow-hidden hover:bg-[#ebebf0] transition-colors duration-200 flex flex-col cursor-pointer relative" onClick={() => openArticle(article)}>
           {article.imageUrl && (
@@ -77,7 +77,7 @@ function AuthorArticles() {
             </div>
           )}
           
-          <div className="p-7 flex flex-col gap-2 flex-1">
+          <div className="p-5 sm:p-7 flex flex-col gap-2 flex-1">
             {/* Status Badge */}
             <span className={article.isArticleActive ? articleStatusActive : articleStatusDeleted}>
               {article.isArticleActive ? "ACTIVE" : "DELETED"}

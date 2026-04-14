@@ -15,9 +15,9 @@ function RootLayout() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen mx-32">
+      <main className="min-h-screen">
         <Outlet />
-      </div>
+      </main>
       <Footer />
     </div>
   );

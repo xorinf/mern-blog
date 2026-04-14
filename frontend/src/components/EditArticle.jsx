@@ -11,6 +11,7 @@ import {
   submitBtn,
   errorClass,
   loadingClass,
+  articlePageWrapper,
 } from "../styles/common";
 
 function EditArticle() {
@@ -68,7 +69,7 @@ function EditArticle() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-14">
+    <div className={articlePageWrapper}>
       <div className={formCard}>
         <h2 className={formTitle}>Edit Article</h2>
 

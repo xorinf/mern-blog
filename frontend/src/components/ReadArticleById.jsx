@@ -128,7 +128,7 @@ function ReadArticleById() {
       <div className={articleHeader}>
         <span className={articleCategory}>{article.category}</span>
 
-        <h1 className={`${articleMainTitle} uppercase`}>{article.title}</h1>
+        <h1 className={`${articleMainTitle} uppercase text-xl sm:text-2xl md:text-3xl`}>{article.title}</h1>
 
         <div className={articleAuthorRow}>
           <div className={authorInfo}>✍️ {article.author?.firstName || "Author"}</div>
@@ -169,7 +169,7 @@ function ReadArticleById() {
               className={`${inputClass} flex-1`}
               placeholder="Write your comment here..."
             />
-            <button type="submit" className={submitBtn + " sm:w-auto px-6"}>
+            <button type="submit" className={`${submitBtn} w-full sm:w-auto px-6`}>
               Add Comment
             </button>
           </form>
