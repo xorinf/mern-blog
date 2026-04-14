@@ -8,7 +8,7 @@ import { commonAPP } from "./APIs/CommonAPI.js"
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
-config({ path: "../.env", debug: true, quiet: true, encoding: "UTF-8" });
+config({ path: ".env", quiet: true }); // Vercel injects env vars directly; ".env" used as local fallback
 
 //create express app
 const app = exp();
