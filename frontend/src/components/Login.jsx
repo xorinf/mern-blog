@@ -42,7 +42,7 @@ function Login() {
   };
 
   return (
-    <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
+    <div className={`${pageBackground} flex items-center justify-center py-16 px-3 sm:px-4`}>
       <div className={formCard}>
         {/* Title */}
         <h2 className={formTitle}>Sign In</h2>

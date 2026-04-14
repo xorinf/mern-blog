@@ -24,18 +24,18 @@ function Home() {
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 mt-10 w-full sm:w-auto px-4 sm:px-0">
           {!isAuthenticated ? (
             <>
-              <NavLink to="/login" className={primaryBtn}>
+              <NavLink to="/login" className={`${primaryBtn} w-full sm:w-40`}>
                 Sign In
               </NavLink>
-              <NavLink to="/register" className={secondaryBtn}>
+              <NavLink to="/register" className={`${secondaryBtn} w-full sm:w-40`}>
                 Create Account
               </NavLink>
             </>
           ) : (
-            <NavLink to="/articles" className={primaryBtn}>
+            <NavLink to="/articles" className={`${primaryBtn} w-full sm:w-48`}>
               Browse Articles
             </NavLink>
           )}

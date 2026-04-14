@@ -4,7 +4,7 @@
 
 // ─── Layout ───────────────────────────────────────────
 export const pageBackground = "bg-white min-h-screen";
-export const pageWrapper = "max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16";
+export const pageWrapper = "max-w-5xl mx-auto px-3 sm:px-4 md:px-6 py-10 md:py-16";
 export const section = "mb-14";
 
 // ─── Cards ────────────────────────────────────────────
@@ -12,8 +12,8 @@ export const cardClass =
   "bg-[#f5f5f7] rounded-2xl p-5 md:p-7 hover:bg-[#ebebf0] transition-colors duration-200 cursor-pointer";
 
 // ─── Typography ───────────────────────────────────────
-export const pageTitleClass = "text-3xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-none mb-2";
-export const headingClass = "text-xl md:text-2xl font-bold text-[#1d1d1f] tracking-tight";
+export const pageTitleClass = "text-2xl sm:text-3xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-none mb-2";
+export const headingClass = "text-lg sm:text-xl md:text-2xl font-bold text-[#1d1d1f] tracking-tight";
 export const subHeadingClass = "text-base md:text-lg font-semibold text-[#1d1d1f] tracking-tight";
 export const bodyText = "text-[#6e6e73] leading-relaxed text-sm md:text-base";
 export const mutedText = "text-xs md:text-sm text-[#a1a1a6]";
@@ -27,8 +27,8 @@ export const secondaryBtn =
 export const ghostBtn = "text-[#0066cc] font-medium hover:text-[#004499] transition-colors cursor-pointer text-sm";
 
 // ─── Forms ────────────────────────────────────────────
-export const formCard = "bg-[#f5f5f7] rounded-2xl p-6 md:p-10 max-w-4xl mx-auto";
-export const formTitle = "text-xl md:text-2xl font-bold text-[#1d1d1f] tracking-tight text-center mb-7";
+export const formCard = "bg-[#f5f5f7] rounded-2xl p-4 sm:p-6 md:p-10 max-w-4xl mx-auto";
+export const formTitle = "text-lg sm:text-xl md:text-2xl font-bold text-[#1d1d1f] tracking-tight text-center mb-7";
 export const labelClass = "text-xs font-medium text-[#6e6e73] mb-1.5 block";
 export const inputClass =
   "w-full bg-white border border-[#d2d2d7] rounded-xl px-4 py-2.5 text-[#1d1d1f] text-sm placeholder:text-[#a1a1a6] focus:outline-none focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/10 transition";
@@ -38,9 +38,9 @@ export const submitBtn =
 
 // ─── Navbar ───────────────────────────────────────────
 export const navbarClass =
-  "bg-white/85 backdrop-blur-xl backdrop-saturate-150 border-b border-[#e8e8ed] px-4 md:px-8 h-[52px] flex items-center sticky top-0 z-50";
+  "bg-white/85 backdrop-blur-xl backdrop-saturate-150 border-b border-[#e8e8ed] px-3 sm:px-4 md:px-8 h-[52px] flex items-center sticky top-0 z-50";
 export const navContainerClass = "max-w-5xl mx-auto w-full flex items-center justify-between relative";
-export const navBrandClass = "text-base font-semibold text-[#1d1d1f] tracking-tight z-50";
+export const navBrandClass = "text-sm sm:text-base font-semibold text-[#1d1d1f] tracking-tight z-50";
 export const navLinksClass = "hidden md:flex items-center gap-7";
 export const navMobileLinksClass = "flex flex-col gap-4 p-6 bg-white border-b border-[#e8e8ed] absolute top-[52px] left-[-16px] right-[-16px] z-40 md:hidden animate-in fade-in slide-in-from-top-2";
 export const navLinkClass = "text-[0.8rem] text-[#6e6e73] hover:text-[#1d1d1f] transition-colors font-normal";

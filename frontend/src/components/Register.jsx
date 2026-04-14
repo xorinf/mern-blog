@@ -59,7 +59,7 @@ function Register() {
   };
 
   return (
-    <div className={`${pageBackground} flex items-center justify-center py-16 px-4`}>
+    <div className={`${pageBackground} flex items-center justify-center py-16 px-3 sm:px-4`}>
       <div className={formCard}>
         <h2 className={formTitle}>Create an Account</h2>
 
