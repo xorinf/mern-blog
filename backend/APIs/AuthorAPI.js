@@ -2,6 +2,9 @@ import exp from 'express';
 import { articleModel } from '../models/ArticleModel.js';
 import { userModel } from '../models/UserModel.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
+import { upload } from '../config/multer.js';
+import { uploadToCloudinary } from '../config/cloudinaryUpload.js';
+import cloudinary from '../config/cloudinary.js';
 
 export const authorAPP = exp.Router();
 
@@ -9,7 +12,8 @@ export const authorAPP = exp.Router();
  * Route: POST /article
  * Description: Write a new article (protected author route).
  */
-authorAPP.post("/article", verifyToken("AUTHOR"), async (request, response) => {
+authorAPP.post("/article", verifyToken("AUTHOR"), upload.single("image"), async (request, response) => {
+    let cloudinaryResult;
     try {
         if (request.body.author !== request.user.id) {
             return response.status(401).json({ message: "Unauthorized! You can only create articles for yourself." });
@@ -23,12 +27,21 @@ authorAPP.post("/article", verifyToken("AUTHOR"), async (request, response) => {
         
         //create article document
         const newArticle = { ...request.body, author: request.user.id };
+
+        if (request.file) {
+            cloudinaryResult = await uploadToCloudinary(request.file.buffer);
+            newArticle.imageUrl = cloudinaryResult?.secure_url;
+        }
+
         const article = new articleModel(newArticle);
         
         //save
         await article.save();
         response.status(201).json({ message: "Article created!", payload: article });
     } catch (err) {
+        if (cloudinaryResult?.public_id) {
+            await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+        }
         response.status(500).json({ message: "Server Error", error: err.message });
     }
 });
@@ -68,7 +81,8 @@ authorAPP.get("/article/:id", verifyToken("AUTHOR"), async (request, response) =
  * Route: PUT /article
  * Description: Edit an existing article.
  */
-authorAPP.put("/article", verifyToken("AUTHOR"), async (request, response) => {
+authorAPP.put("/article", verifyToken("AUTHOR"), upload.single("image"), async (request, response) => {
+    let cloudinaryResult;
     try {
         const modifiedArticle = request.body;
         const article = await articleModel.findById(modifiedArticle._id);
@@ -80,6 +94,11 @@ authorAPP.put("/article", verifyToken("AUTHOR"), async (request, response) => {
             return response.status(401).json({ message: "Unauthorized! You can only edit your own articles." });
         }
 
+        if (request.file) {
+            cloudinaryResult = await uploadToCloudinary(request.file.buffer);
+            modifiedArticle.imageUrl = cloudinaryResult?.secure_url;
+        }
+
         //update article
         const updatedArticle = await articleModel.findByIdAndUpdate(
             modifiedArticle._id, 
@@ -88,6 +107,9 @@ authorAPP.put("/article", verifyToken("AUTHOR"), async (request, response) => {
         );
         response.status(200).json({ message: "Article updated!", payload: updatedArticle });
     } catch (err) {
+        if (cloudinaryResult?.public_id) {
+            await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+        }
         response.status(500).json({ message: "Server Error", error: err.message });
     }
 });

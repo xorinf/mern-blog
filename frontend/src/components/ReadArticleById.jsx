@@ -137,6 +137,12 @@ function ReadArticleById() {
         </div>
       </div>
 
+      {article.imageUrl && (
+        <div className="w-full mb-8 rounded-2xl overflow-hidden aspect-[16/9] bg-gray-100">
+          <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
+        </div>
+      )}
+
       {/* Content */}
       <div className={articleContent}>{article.content}</div>
 

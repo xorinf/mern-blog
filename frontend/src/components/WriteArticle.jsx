@@ -32,10 +32,18 @@ function WriteArticle() {
     setLoading(true);
     setApiError(null);
 
-    //add authorId to articleObj
-    articleObj.author = currentUser._id;
+    const formData = new FormData();
+    formData.append("title", articleObj.title);
+    formData.append("category", articleObj.category);
+    formData.append("content", articleObj.content);
+    formData.append("author", currentUser._id);
+
+    if (articleObj.image?.[0]) {
+      formData.append("image", articleObj.image[0]);
+    }
+
     try {
-      const res = await axios.post("/author-api/article", articleObj, { withCredentials: true });
+      const res = await axios.post("/author-api/article", formData, { withCredentials: true });
       reset();
       navigate("/author-profile/articles");
     } catch (err) {
@@ -93,6 +101,25 @@ function WriteArticle() {
           </select>
 
           {errors.category && <p className={errorClass}>{errors.category.message}</p>}
+        </div>
+
+        {/* Image Upload */}
+        <div className={formGroup}>
+          <label className={labelClass}>Article Banner Image (Optional)</label>
+          <input
+            type="file"
+            className={inputClass}
+            accept="image/png, image/jpeg"
+            {...register("image", {
+              validate: {
+                fileSize: (files) => {
+                  if (!files?.[0]) return true;
+                  return files[0].size <= 2 * 1024 * 1024 || "Max size 2MB";
+                },
+              },
+            })}
+          />
+          {errors.image && <p className={errorClass}>{errors.image.message}</p>}
         </div>
 
         {/* Content */}

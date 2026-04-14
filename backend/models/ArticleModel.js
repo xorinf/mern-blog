@@ -34,6 +34,9 @@ const articleSchema = new Schema({
         type: String,
         required: [true, "content is required!"],
     },
+    imageUrl: {
+        type: String
+    },
     comments: [{ type: commentSchema, default: [] }],
     isArticleActive: {
         type: Boolean,

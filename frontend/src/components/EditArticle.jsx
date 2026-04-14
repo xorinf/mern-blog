@@ -37,13 +37,20 @@ function EditArticle() {
     setLoading(true);
     setApiError(null);
 
-    try {
-      // include _id for the backend to identify the article
-      articleObj._id = article._id;
-      articleObj.author = article.author?._id || article.author;
-      articleObj.isArticleActive = article.isArticleActive;
+    const formData = new FormData();
+    formData.append("_id", article._id);
+    formData.append("title", articleObj.title);
+    formData.append("category", articleObj.category);
+    formData.append("content", articleObj.content);
+    formData.append("author", article.author?._id || article.author);
+    formData.append("isArticleActive", article.isArticleActive);
 
-      const res = await axios.put("/author-api/article", articleObj, { withCredentials: true });
+    if (articleObj.image?.[0]) {
+      formData.append("image", articleObj.image[0]);
+    }
+
+    try {
+      const res = await axios.put("/author-api/article", formData, { withCredentials: true });
       navigate(`/article/${article._id}`, { state: res.data.payload });
     } catch (err) {
       setApiError(err.response?.data?.message || "Failed to update article");
@@ -99,6 +106,24 @@ function EditArticle() {
               <option value="SMUT">Smut</option>
             </select>
             {errors.category && <p className={errorClass}>{errors.category.message}</p>}
+          </div>
+
+          <div className={formGroup}>
+            <label className={labelClass}>Update Banner Image (Optional)</label>
+            <input
+              type="file"
+              className={inputClass}
+              accept="image/png, image/jpeg"
+              {...register("image", {
+                validate: {
+                  fileSize: (files) => {
+                    if (!files?.[0]) return true;
+                    return files[0].size <= 2 * 1024 * 1024 || "Max size 2MB";
+                  },
+                },
+              })}
+            />
+            {errors.image && <p className={errorClass}>{errors.image.message}</p>}
           </div>
 
           {/* Content */}

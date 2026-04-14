@@ -55,6 +55,23 @@ adminAPP.patch("/users/status/:id", verifyToken("ADMIN"), async (request, respon
     }
 });
 
+/**
+ * Route: PATCH /articles/status/:id
+ * Description: Admin toggle to block/restore an article.
+ */
+adminAPP.patch("/articles/status/:id", verifyToken("ADMIN"), async (request, response) => {
+    try {
+        const article = await articleModel.findById(request.params.id);
+        if(!article) return response.status(404).json({ message: "Article not found" });
+
+        article.isArticleActive = !article.isArticleActive;
+        await article.save();
+        
+        response.status(200).json({ message: "Article status updated!", payload: article });
+    } catch (err) {
+        response.status(500).json({ message: "Server Error", error: err.message });
+    }
+});
 
 /*
  * Admin login

@@ -11,6 +11,7 @@ import WriteArticle from "./components/WriteArticle";
 import ReadArticleById from "./components/ReadArticleById";
 import AdminProfile from "./components/AdminProfile";
 import Articles from "./components/Articles";
+import AdminArticles from "./components/AdminArticles";
 import UsersList from "./components/UsersList";
 import AuthorsList from "./components/AuthorsList";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -88,7 +89,11 @@ function App() {
           children: [
             {
               index: true,
-              element: <UsersList />,
+              element: <AdminArticles />,
+            },
+            {
+              path: "articles",
+              element: <AdminArticles />,
             },
             {
               path: "users",

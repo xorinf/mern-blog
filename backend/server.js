@@ -14,8 +14,15 @@ config({ path: "../.env", debug: true, quiet: true, encoding: "UTF-8" });
 const app = exp();
 
 //enable cors
+const allowedOrigins = ['http://localhost:5173', process.env.FRONTEND_URL];
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: function (origin, callback) {
+     if (!origin || allowedOrigins.includes(origin)) {
+       callback(null, true);
+     } else {
+       callback(new Error('Not allowed by CORS'));
+     }
+  },
   credentials: true
 }));
 
@@ -39,7 +46,9 @@ const db_address = process.env.DB_ADDRESS;
 try {
   await connect(db_address);
   console.log(`The DataBase is connected!`);
-  app.listen(port, () => console.log(`server listning at port : ${port} ...`));
+  if (process.env.NODE_ENV !== "production") {
+    app.listen(port, () => console.log(`server listning at port : ${port} ...`));
+  }
 } catch (err) {
   console.log("con refused :", err);
 }
@@ -78,3 +87,5 @@ app.use((err, req, res, next) => {
   //send server side error
   res.status(500).json({ message: "error occurred", error: "Server side error" });
 });
+
+export default app;

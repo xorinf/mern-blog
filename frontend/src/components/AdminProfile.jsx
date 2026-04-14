@@ -40,6 +40,16 @@ function AdminProfile() {
       {/* NAVIGATION */}
       <div className="flex gap-3 mb-6 bg-[#f5f5f7] p-2 rounded-full w-fit">
         <NavLink
+          to="articles"
+          className={({ isActive }) =>
+            isActive
+              ? "bg-white px-5 py-2 rounded-full text-[#0066cc] text-sm font-medium shadow-sm"
+              : `${navLinkClass} px-5 py-2`
+          }
+        >
+          Articles
+        </NavLink>
+        <NavLink
           to="users"
           className={({ isActive }) =>
             isActive

@@ -14,7 +14,7 @@ export const verifyToken = (...allowedRoles) => {
             if (!token) { return res.status(401).json({ message: "Unauthorized Request. Token missing!" }); }
 
             //verify token using secret
-            const decodedToken = jwt.verify(token, "chicken");
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
             //check if user role is within allowed roles for the route
             if (allowedRoles.length && !allowedRoles.includes(decodedToken.role)) {

@@ -9,7 +9,6 @@ import { uploadToCloudinary } from '../config/cloudinaryUpload.js';
 import cloudinary from '../config/cloudinary.js';
 
 export const commonAPP = exp.Router();
-config();
 
 /*
  * Route: POST /register
@@ -38,7 +37,7 @@ commonAPP.post("/register", upload.single("profileImageUrl"), async (request, re
             }
 
             //hash password and replace plain with hashed one
-            newUser.password = await hash(newUser.password, 12);
+            newUser.password = await hash(newUser.password, Number(process.env.SALT));
 
             //create new user document
             const newUserDoc = new userModel(newUser);
@@ -106,7 +105,7 @@ commonAPP.post("/login", async (request, response) => {
             lastName: user.lastName,
             profileImageUrl: user.profileImageUrl,
         },
-        "chicken",
+        process.env.JWT_SECRET,
         { expiresIn: "1h" }
     );
 
@@ -115,7 +114,11 @@ commonAPP.post("/login", async (request, response) => {
     delete userObj.password;
 
     //set token to res header as httpOnly cookie
-    response.cookie("token", token, { httpOnly: true, secure: false, sameSite: "lax" });
+    response.cookie("token", token, { 
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === "production", 
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" 
+    });
     response.status(200).json({ message: "Login Successful", payload: userObj });
 });
 
@@ -127,7 +130,7 @@ commonAPP.put("/password", verifyToken("USER", "AUTHOR", "ADMIN"), async (reques
     // get current password! and check the current password of the request and user is same
     if (await compare(current_pass, user.password)) {
         // change the password (update) after hashing new password!
-        let new_password = await hash(new_pass, 12);
+        let new_password = await hash(new_pass, Number(process.env.SALT));
         user.password = new_password
         //save
         await user.save({validateBeforeSave : true})
@@ -159,8 +162,8 @@ commonAPP.get("/logout", (request, response) => {
     //delete token from cookie storage
     response.clearCookie("token", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax"
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     });
     response.status(200).json({ message: "Logout Successful" });
 });
