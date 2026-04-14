@@ -64,11 +64,11 @@ function Articles() {
           {articles.map((article) => (
             <div key={article._id} className="bg-[#f5f5f7] rounded-2xl overflow-hidden hover:bg-[#ebebf0] transition-colors duration-200 flex flex-col cursor-pointer">
               {article.imageUrl && (
-                  <div className="w-full h-40 bg-gray-200 overflow-hidden">
+                  <div className="w-full h-48 sm:h-40 bg-gray-200 overflow-hidden">
                     <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" />
                   </div>
               )}
-              <div className="p-7 flex flex-col gap-2 flex-1">
+              <div className="p-5 md:p-7 flex flex-col gap-2 flex-1">
                 <span className={tagClass}>{article.category}</span>
                 <p className={articleTitle}>{article.title}</p>
                 <p className={articleExcerpt}>{article.content?.slice(0, 80)}...</p>
@@ -76,7 +76,7 @@ function Articles() {
                   By {article.author?.firstName || "Author"} · {formatDate(article.createdAt)}
                 </p>
               </div>
-              <button className={`${ghostBtn} mt-auto pt-4`} onClick={() => openArticle(article)}>
+              <button className={`${ghostBtn} mt-auto py-4`} onClick={() => openArticle(article)}>
                 Read Article →
               </button>
             </div>

@@ -16,15 +16,15 @@ function Home() {
     <div className={pageBackground}>
       <div className={`${pageWrapper} flex flex-col items-center text-center`}>
         {/* Hero */}
-        <h1 className={`${pageTitleClass} mt-16`}>
+        <h1 className={`${pageTitleClass} mt-8 md:mt-16`}>
           Welcome to My Blog
         </h1>
-        <p className={`${bodyText} max-w-xl mt-4 text-lg`}>
+        <p className={`${bodyText} max-w-xl mt-4 text-base md:text-lg`}>
           A place to read, write.
         </p>
 
         {/* CTA */}
-        <div className="flex gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
           {!isAuthenticated ? (
             <>
               <NavLink to="/login" className={primaryBtn}>

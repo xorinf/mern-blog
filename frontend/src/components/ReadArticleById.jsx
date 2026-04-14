@@ -162,14 +162,14 @@ function ReadArticleById() {
       {/* USER comment form */}
       {user?.role === "USER" && (
         <div className="mt-8">
-          <form onSubmit={handleSubmit(addComment)} className="flex gap-3">
+          <form onSubmit={handleSubmit(addComment)} className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               {...register("comment", { required: true })}
               className={`${inputClass} flex-1`}
               placeholder="Write your comment here..."
             />
-            <button type="submit" className={submitBtn + " w-auto px-6"}>
+            <button type="submit" className={submitBtn + " sm:w-auto px-6"}>
               Add Comment
             </button>
           </form>
