@@ -113,13 +113,14 @@ commonAPP.post("/login", async (request, response) => {
     let userObj = user.toObject();
     delete userObj.password;
 
-    //set token to res header as httpOnly cookie
+    //set token to res header as httpOnly cookie (works for same-domain)
     response.cookie("token", token, { 
         httpOnly: true, 
         secure: process.env.NODE_ENV === "production", 
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" 
     });
-    response.status(200).json({ message: "Login Successful", payload: userObj });
+    //also return token in body for cross-domain localStorage auth
+    response.status(200).json({ message: "Login Successful", payload: userObj, token });
 });
 
 

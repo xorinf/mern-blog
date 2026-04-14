@@ -13,6 +13,10 @@ export const useAuth = create((set) => ({
       const res = await axios.post("/auth/login", userCredWithRole, {
         withCredentials: true,
       });
+      // Store token in localStorage for cross-domain Bearer auth
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      }
       set({
         loading: false,
         isAuthenticated: true,
@@ -36,6 +40,8 @@ export const useAuth = create((set) => ({
     set({ loading: true, error: null });
     try {
       await axios.get("/auth/logout", { withCredentials: true });
+      // Clear token from localStorage
+      localStorage.removeItem("token");
       set({
         loading: false,
         isAuthenticated: false,
@@ -43,6 +49,8 @@ export const useAuth = create((set) => ({
         error: null,
       });
     } catch (err) {
+      // Clear token even on error
+      localStorage.removeItem("token");
       set({
         loading: false,
         isAuthenticated: false,
@@ -63,8 +71,9 @@ export const useAuth = create((set) => ({
         loading: false,
       });
     } catch (err) {
-      // If user is not logged in → silently clear state
+      // If user is not logged in → silently clear state and token
       if (err.response?.status === 401) {
+        localStorage.removeItem("token");
         set({
           currentUser: null,
           isAuthenticated: false,

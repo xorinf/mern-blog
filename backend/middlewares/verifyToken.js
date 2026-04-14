@@ -9,8 +9,8 @@ import jwt from 'jsonwebtoken';
 export const verifyToken = (...allowedRoles) => {
     return (req, res, next) => {
         try {
-            //extract token from cookie
-            const token = req.cookies?.token;
+            //extract token from cookie OR Authorization header (for cross-domain deployments)
+            const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
             if (!token) { return res.status(401).json({ message: "Unauthorized Request. Token missing!" }); }
 
             //verify token using secret

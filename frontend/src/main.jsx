@@ -9,6 +9,15 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:6
 // Always send cookies with cross-domain requests
 axios.defaults.withCredentials = true;
 
+// Axios interceptor: attach Bearer token from localStorage to every request
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
